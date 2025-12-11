@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  php-fpm:
+    build: 
+      context: .
+      dockerfile: php_fpm/Dockerfile
+    # Give the service a name that Nginx can resolve
+    container_name: php_fpm_app
+    volumes:
+      # Mount the local source code into the container
+      # This allows you to edit index.php and see changes without rebuilding
+      - ./src:/var/www/html
+    expose:
+      # Expose port 9000 to the internal network (Nginx can see it)
+      - 9000
+    restart: always
+
+  nginx:
+    build: 
+      context: .
+      dockerfile: nginx/Dockerfile
+    container_name: nginx_webserver
+    volumes:
+      # Mount the same source code volume into the Nginx container!
+      # Nginx needs to be able to find and verify the existence of index.php.
+      - ./src:/var/www/html
+    ports:
+      # Publish port 80 to your local machine's port 8080
+      - "80:80"
+    depends_on:
+      - php-fpm
+    restart: always
