@@ -1,6 +1,0 @@
-services:
-  inception:
-    image: inception
-    build:
-      context: .
-      dockerfile: ./Dockerfile
