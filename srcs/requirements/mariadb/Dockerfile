@@ -1,18 +1,16 @@
-# Use Alpine as base
-FROM alpine:latest
+FROM debian:bullseye
 
-# Install MariaDB
-RUN apk update && apk add --no-cache mariadb mariadb-client
+RUN apt update && apt install -y mariadb-server mariadb-client -y
 
-COPY requirements/mariadb/conf/my.cnf /etc/my.cnf.d/mariadb.cnf
+COPY tools/init.sh /bin/init.sh
+COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
-# Create MariaDB directories
-RUN mkdir -p /run/mysqld /var/lib/mysql && \
-    chown -R mysql:mysql /run/mysqld /var/lib/mysql && \
-    mysql_install_db --user=mysql --datadir=/var/lib/mysql
+RUN mkdir -p /var/run/mysqld && \
+    chown -R mysql:mysql /var/run/mysqld && \
+    chmod 777 /var/run/mysqld
 
-# Expose default MariaDB port
+RUN chmod +x /bin/init.sh
+
 EXPOSE 3306
 
-# Start MariaDB
-CMD ["mysqld", "--user=mysql", "--console"]
+CMD ["/bin/init.sh"]

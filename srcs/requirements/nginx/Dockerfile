@@ -1,24 +1,19 @@
-FROM alpine:latest
+# Use the penultimate stable version of Debian 'Bullseye' as the base image
+FROM debian:bullseye
 
-# 1. Install Nginx
-RUN apk add --no-cache nginx
+# Update the package list and install Nginx
+# -y answers yes to all prompts
+RUN apt-get update && apt-get install -y nginx openssl
 
-# remove wrong path
-RUN rm -f /etc/nginx/http.d/default.conf
+# Copy our custom Nginx configuration to the default site location
+COPY conf/nginx.conf /etc/nginx/sites-available/default
 
-# copy to correct directory
-COPY requirements/nginx/conf/nginx.conf /etc/nginx/http.d/default.conf
+COPY tools/ssl.sh /bin/ssl.sh
 
-# install openssl and add script
-COPY requirements/nginx/tools/generate_ssl_certificate.sh /usr/local/bin/generate_ssl_certificate.sh
+RUN chmod +x /bin/ssl.sh && /bin/ssl.sh
 
-RUN chmod +x /usr/local/bin/generate_ssl_certificate.sh && \
-    apk add --no-cache openssl && \
-    /usr/local/bin/generate_ssl_certificate.sh /etc/nginx/ssl
-
+# Expose port 80 to allow external access
 EXPOSE 443
 
-# 5. Create directory for PID file (needed for Nginx on Alpine)
-RUN mkdir -p /run/nginx
-
+# Start Nginx in the foreground so the container doesn't stop
 CMD ["nginx", "-g", "daemon off;"]

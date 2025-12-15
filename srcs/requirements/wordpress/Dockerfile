@@ -1,26 +1,38 @@
-FROM alpine:latest
+# Use Debian Bullseye as base
+FROM debian:bullseye
 
-COPY requirements/wordpress/aa.sh /usr/local/bin
+# Update apt and install PHP-FPM and necessary extensions for WordPress
+# wget and tar are for downloading WordPress
+RUN apt-get update && apt-get install -y \
+    php7.4-fpm \
+    php7.4-mysql \
+    php7.4-curl \
+    php7.4-gd \
+    php7.4-mbstring \
+    php7.4-xml \
+    php7.4-xmlrpc \
+    php7.4-soap \
+    php7.4-intl \
+    php7.4-zip \
+    wget \
+    tar
 
-RUN chmod +x /usr/local/bin/aa.sh
+# PHP-FPM requires this directory to run
+RUN mkdir -p /run/php
 
-RUN apk add --no-cache \
-    php83 php83-fpm php83-opcache php83-curl php83-mysqli \
-    php83-json php83-xml php83-mbstring php83-gd php83-zip \
-    php83-session curl tar
+# Copy custom pool configuration to listen on port 9000
+COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
-RUN sed -i 's/listen = 127.0.0.1:9000/listen = 9000/g' /etc/php83/php-fpm.d/www.conf
+# Copy the startup script
+COPY tools/start.sh /usr/local/bin/start.sh
 
-WORKDIR /var/www
+# Make the startup script executable
+RUN chmod +x /usr/local/bin/start.sh
 
-RUN cd /var/www \
- && curl -O https://wordpress.org/latest.tar.gz \
- && tar -xzf latest.tar.gz \
- && rm latest.tar.gz \
- && chown -R nobody:nobody wordpress
-
-
+# Expose port 9000 for Nginx to connect
 EXPOSE 9000
 
-CMD ["/bin/sh", "-c", "/usr/local/bin/aa.sh && /usr/sbin/php-fpm83 -F"]
+WORKDIR /var/www/html
 
+# Run the startup script
+CMD ["/usr/local/bin/start.sh"]
