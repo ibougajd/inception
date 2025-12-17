@@ -1,0 +1,32 @@
+# Inception Bonus Part Integration Report
+
+This file documents the changes made to the mandatory part to support the bonus services.
+
+## 1. srcs/requirements/wordpress/Dockerfile
+- **Change**: Added `php7.4-redis` to the installation command.
+- **Reason**: The WordPress container needs the PHP Redis extension to communicate with the Redis Cache service.
+
+## 2. srcs/requirements/wordpress/tools/start.sh
+- **Change**: Added WP-CLI commands to:
+    - Set `WP_REDIS_HOST` to `redis` and `WP_REDIS_PORT` to `6379` in `wp-config.php`.
+    - Install and activate the `redis-cache` plugin.
+    - Enable the Redis object cache.
+- **Reason**: Automates the configuration of the Redis connection and plugin activation during container startup.
+
+## 3. srcs/docker-compose.yml
+- **Change**: Added the following service definitions:
+    - `redis`: Redis cache service.
+    - `ftp`: VSFTPD server.
+    - `adminer`: Database management interface.
+    - `website`: Static Node.js website.
+    - `cadvisor`: Container monitoring.
+- **Change**: Updated `wordpress` service to rely on `redis`.
+- **Reason**: Integrating the bonus microservices into the project infrastructure.
+
+## 4. New Directories
+- Created `srcs/requirements/bonus/` containing:
+    - `redis/`
+    - `ftp/`
+    - `adminer/`
+    - `website/`
+    - `cadvisor/`

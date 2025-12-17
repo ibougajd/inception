@@ -6,6 +6,6 @@ mkdir -p "$OUTDIR"
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -keyout "$OUTDIR/server.key" \
   -out "$OUTDIR/server.crt" \
-  -subj "/CN=localhost"
+  -subj "/CN=ibougajd.42.fr"
 
 chmod 600 "$OUTDIR/server.key"

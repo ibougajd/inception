@@ -1,4 +1,4 @@
-version: '3.8'
+# version: '3.8'
 
 services:
   nginx:
@@ -8,9 +8,12 @@ services:
     ports:
       - "443:443"
     volumes:
-      - wp_data:/var/www/html
+      - /home/ibougajd/data/wordpress:/var/www/html
+    networks:
+      - n1
     depends_on:
       - wordpress
+
   wordpress:
     build: ./requirements/wordpress
     container_name: tests_wordpress
@@ -18,11 +21,14 @@ services:
     env_file:
       - .env
     volumes:
-      - wp_data:/var/www/html
+      - /home/ibougajd/data/wordpress:/var/www/html
     expose:
       - 9000
+    networks:
+      - n1
     depends_on:
       - mariadb
+      - redis
 
   mariadb:
     build: ./requirements/mariadb
@@ -31,10 +37,73 @@ services:
     env_file:
       - .env
     volumes:
-      - wp_maria:/var/lib/mysql
+      - /home/ibougajd/data/mariadb:/var/lib/mysql
     expose:
       - 3306
+    networks:
+      - n1
 
-volumes:
-  wp_data:
-  wp_maria:
+  # BONUS SERVICES
+
+  redis:
+    build: ./requirements/bonus/redis
+    container_name: tests_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - n1
+
+  ftp:
+    build: ./requirements/bonus/ftp
+    container_name: tests_ftp
+    restart: always
+    ports:
+      - "21:21"
+      - "21100-21110:21100-21110"
+    volumes:
+      - /home/ibougajd/data/wordpress:/var/www/html
+    env_file:
+      - .env
+    networks:
+      - n1
+
+  adminer:
+    build: ./requirements/bonus/adminer
+    container_name: tests_adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - n1
+    depends_on:
+      - mariadb
+
+  website:
+    build: ./requirements/bonus/website
+    container_name: tests_website
+    restart: always
+    ports:
+      - "1337:1337"
+    networks:
+      - n1
+
+  cadvisor:
+    build: ./requirements/bonus/cadvisor
+    container_name: tests_cadvisor
+    restart: always
+    ports:
+      # Map 8080 inside to 8081 outside to avoid conflict with Adminer
+      - "8081:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    networks:
+      - n1
+
+networks:
+  n1:
+    driver: bridge

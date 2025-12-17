@@ -15,7 +15,14 @@ RUN apt-get update && apt-get install -y \
     php7.4-intl \
     php7.4-zip \
     wget \
-    tar
+    wget \
+    tar \
+    php7.4-redis
+
+# Install WP-CLI
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp
 
 # PHP-FPM requires this directory to run
 RUN mkdir -p /run/php
