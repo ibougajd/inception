@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Portfolio | 1337 Student</title>
+    <link rel="stylesheet" href="portfolio.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Using local fonts is preferred but for a bonus strictly usually network is restricted. 
+         However, purely static often allows local fonts. 
+         For simplicity and performance without external deps, I will stick to system fonts stack 
+         that looks good (Inter/Roboto styled) or rely on the user having internet for fonts if allowed.
+         Technically strict inception requires NO EXTERNAL network on build, but run can have it?
+         Actually, strict inception usually means "no external calls during build". 
+         To be safe and 100% strictly compliant with "No external dependencies required to run",
+         I will use a robust system font stack that looks modern. -->
+</head>
+
+<body>
+    <div class="cursor-glow"></div>
+
+    <nav class="navbar">
+        <div class="logo">&lt;1337/&gt;</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <p class="greeting">Hello, I'm</p>
+            <h1 class="glitch-text" data-text="Ilyass">Ilyass</h1>
+            <h2 class="subtitle">System Architect & Full Stack Developer</h2>
+            <p class="tagline">Building robust systems and pixel-perfect interfaces.</p>
+            <a href="#projects" class="cta-button">View Work</a>
+        </div>
+    </header>
+
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">01. About Me</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>I am a software engineering student at <strong>1337 (42 Network)</strong>, passionate about
+                        low-level programming, system administration, and modern web development.</p>
+                    <p>I thrive in solving complex problems, from managing Docker containers to crafting 3D web
+                        experiences. My journey involves rigorous C coding, algorithm optimization, and building
+                        scalable full-stack applications.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <h3>42</h3>
+                        <p>Projects</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>100%</h3>
+                        <p>Dedication</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section">
+        <div class="container">
+            <h2 class="section-title">02. Technologies</h2>
+            <div class="skills-wrapper">
+                <div class="skill-category">
+                    <h3>Core</h3>
+                    <div class="skill-list">
+                        <span>C / C++</span>
+                        <span>Rust</span>
+                        <span>Python</span>
+                        <span>TypeScript</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>DevOps & Systems</h3>
+                    <div class="skill-list">
+                        <span>Docker</span>
+                        <span>Kubernetes</span>
+                        <span>Nginx</span>
+                        <span>Linux / Bash</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Web</h3>
+                    <div class="skill-list">
+                        <span>React / Next.js</span>
+                        <span>Three.js</span>
+                        <span>Node.js</span>
+                        <span>NestJS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="section-title">03. Featured Projects</h2>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <article class="project-card">
+                    <div class="project-header">
+                        <div class="folder-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" aria-label="GitHub Link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                    </path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <h3>Inception</h3>
+                    <p>System Administration project using Docker Compose to set up a small infrastructure with Nginx,
+                        WordPress, and MariaDB following strict security rules.</p>
+                    <ul class="tech-stack">
+                        <li>Docker</li>
+                        <li>Bash</li>
+                        <li>Nginx</li>
+                    </ul>
+                </article>
+
+                <!-- Project 2 -->
+                <article class="project-card">
+                    <div class="project-header">
+                        <div class="folder-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" aria-label="GitHub Link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                    </path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <h3>ft_transcendence</h3>
+                    <p>A real-time multiplayer Pong game with chat, matchmaking, and admin dashboard.</p>
+                    <ul class="tech-stack">
+                        <li>NestJS</li>
+                        <li>React</li>
+                        <li>PostgreSQL</li>
+                    </ul>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="project-card">
+                    <div class="project-header">
+                        <div class="folder-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" aria-label="GitHub Link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                    </path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <h3>Minishell</h3>
+                    <p>Recreating a bash-like shell from scratch in C. Handles processes, signals, and pipes.</p>
+                    <ul class="tech-stack">
+                        <li>C</li>
+                        <li>Unix API</li>
+                        <li>Algorithms</li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="container contact-container">
+            <h2 class="section-title">04. Get In Touch</h2>
+            <p class="contact-text">Currently looking for new opportunities. Whether you have a question or just want to
+                say hi, I'll try my best to get back to you!</p>
+            <a href="mailto:ilyass@student.1337.ma" class="cta-button">Say Hello</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>Built by Ilyass &copy; 2025</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
