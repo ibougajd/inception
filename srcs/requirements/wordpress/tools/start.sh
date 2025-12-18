@@ -1,15 +1,16 @@
 #!/bin/bash
 
-# Check if wp-config.php exists
 if [ -f ./wp-config.php ]
 then
 	echo "wordpress already installed"
 else
 
-	# Download WordPress
 	wp core download --allow-root
 
-	# Create wp-config.php
+	while ! mysqladmin ping -h"$DB_HOST" --silent; do
+		sleep 1
+	done
+
 	wp config create \
 		--dbname=$DB_NAME \
 		--dbuser=$DB_USER \
@@ -17,15 +18,7 @@ else
 		--dbhost=$DB_HOST \
 		--allow-root
 
-	# Configure Redis
-	wp config set WP_REDIS_HOST redis --allow-root
-	wp config set WP_REDIS_PORT 6379 --allow-root
-	
-	# Install Redis Object Cache Plugin
-	wp plugin install redis-cache --activate --allow-root
-	wp redis enable --allow-root
 
-	# Install WordPress
 	wp core install \
 		--url=$DOMAIN_NAME \
 		--title=$TITLE \
@@ -34,7 +27,6 @@ else
 		--admin_email=$ADMIN_EMAIL \
 		--allow-root
 
-	# Create a second user
 	wp user create \
 		$USER1_USER \
 		$USER1_EMAIL \
@@ -43,5 +35,9 @@ else
 		--allow-root
 fi
 
-# Start PHP-FPM in foreground
+	wp config set WP_REDIS_HOST redis --allow-root
+	wp config set WP_REDIS_PORT 6379 --allow-root
+	wp plugin install redis-cache --activate --allow-root
+	wp redis enable --allow-root
+
 exec php-fpm7.4 -F

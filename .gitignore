@@ -1,0 +1,7 @@
+srcs/.env
+.env
+.DS_Store
+*.log
+secrets/
+.vscode/
+.idea/

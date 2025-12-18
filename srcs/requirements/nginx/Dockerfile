@@ -1,4 +1,3 @@
-# Use the penultimate stable version of Debian 'Bullseye' as the base image
 FROM debian:bullseye
 
 RUN apt-get update && apt-get install -y nginx openssl

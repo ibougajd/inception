@@ -1,27 +1,26 @@
-# version: '3.8'
-
 services:
   nginx:
     build: ./requirements/nginx
-    container_name: tests_nginx
-    restart: always
+    container_name: nginx
+    image: nginx
     ports:
       - "443:443"
     volumes:
-      - /home/ibougajd/data/wordpress:/var/www/html
+      - wordpress_vol:/var/www/html
     networks:
       - n1
     depends_on:
       - wordpress
+    restart: always
 
   wordpress:
     build: ./requirements/wordpress
-    container_name: tests_wordpress
-    restart: always
+    container_name: wordpress
+    image: wordpress
     env_file:
       - .env
     volumes:
-      - /home/ibougajd/data/wordpress:/var/www/html
+      - wordpress_vol:/var/www/html
     expose:
       - 9000
     networks:
@@ -29,25 +28,28 @@ services:
     depends_on:
       - mariadb
       - redis
+    restart: always
 
   mariadb:
     build: ./requirements/mariadb
-    container_name: tests_mariadb
-    restart: always
+    container_name: mariadb
+    image: mariadb
     env_file:
       - .env
     volumes:
-      - /home/ibougajd/data/mariadb:/var/lib/mysql
+      - mariadb_vol:/var/lib/mysql
     expose:
       - 3306
     networks:
       - n1
+    restart: always
 
   # BONUS SERVICES
 
   redis:
     build: ./requirements/bonus/redis
-    container_name: tests_redis
+    container_name: redis
+    image: redis
     restart: always
     ports:
       - "6379:6379"
@@ -56,13 +58,14 @@ services:
 
   ftp:
     build: ./requirements/bonus/ftp
-    container_name: tests_ftp
+    container_name: ftp
+    image: ftp
     restart: always
     ports:
       - "21:21"
       - "21100-21110:21100-21110"
     volumes:
-      - /home/ibougajd/data/wordpress:/var/www/html
+      - wordpress_vol:/var/www/html
     env_file:
       - .env
     networks:
@@ -70,7 +73,8 @@ services:
 
   adminer:
     build: ./requirements/bonus/adminer
-    container_name: tests_adminer
+    container_name: adminer
+    image: adminer
     restart: always
     ports:
       - "8080:8080"
@@ -81,7 +85,8 @@ services:
 
   website:
     build: ./requirements/bonus/website
-    container_name: tests_website
+    container_name: website
+    image: website
     restart: always
     ports:
       - "1337:1337"
@@ -89,11 +94,11 @@ services:
       - n1
 
   cadvisor:
+    container_name: cadvisor
     build: ./requirements/bonus/cadvisor
-    container_name: tests_cadvisor
+    image: cadvisor
     restart: always
     ports:
-      # Map 8080 inside to 8081 outside to avoid conflict with Adminer
       - "8081:8080"
     volumes:
       - /:/rootfs:ro
@@ -103,6 +108,20 @@ services:
       - /dev/disk/:/dev/disk:ro
     networks:
       - n1
+
+volumes:
+  mariadb_vol:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/ibougajd/data/mariadb
+  wordpress_vol:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/ibougajd/data/wordpress
 
 networks:
   n1:

@@ -1,18 +1,12 @@
 #!/bin/bash
 
-# Configure vsftpd
-# Create empty config directory to prevent error
 mkdir -p /var/run/vsftpd/empty
 
-# Create FTP user
-# If user doesn't exist, create it
 if ! id "$FTP_USER" &>/dev/null; then
-    useradd -m -s /bin/bash "$FTP_USER"
+    useradd -m -d /var/www/html -s /bin/bash "$FTP_USER"
     echo "$FTP_USER:$FTP_PASS" | chpasswd
-    # Add to www-data group to access website files if needed, mostly we just read/write own files but we might want to write to /var/www/html
 fi
 
-# Create vsftpd.conf
 cat << EOF > /etc/vsftpd.conf
 listen=YES
 listen_ipv6=NO
@@ -36,9 +30,7 @@ userlist_deny=NO
 allow_writeable_chroot=YES
 EOF
 
-# Add user to userlist
 echo "$FTP_USER" > /etc/vsftpd.userlist
 
-# Start vsftpd
 echo "Starting VSFTPD..."
 exec /usr/sbin/vsftpd /etc/vsftpd.conf
